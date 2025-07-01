@@ -172,6 +172,7 @@ const CombinedPage = () => {
                 to="inicio"
                 smooth={true}
                 duration={500}
+                offset={-100}
                 className="navbar-link"
               >
                 Inicio
@@ -182,6 +183,7 @@ const CombinedPage = () => {
                 to="nosotros"
                 smooth={true}
                 duration={500}
+                offset={-100}
                 className="navbar-link"
               >
                 Nosotros
@@ -192,6 +194,7 @@ const CombinedPage = () => {
                 to="universidades"
                 smooth={true}
                 duration={500}
+                offset={-100}
                 className="navbar-link"
               >
                 Universidades
@@ -202,6 +205,7 @@ const CombinedPage = () => {
                 to="universidad-ideal"
                 smooth={true}
                 duration={500}
+                offset={-100}
                 className="navbar-link"
               >
                 Descubre tu Universidad Ideal
