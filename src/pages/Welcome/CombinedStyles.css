@@ -351,90 +351,81 @@
 /* Nueva sección: Descubre tu Universidad Ideal */
 .discover-section {
   background: linear-gradient(135deg, #6e8efb, #a777e3);
-  padding: 5rem 2rem;
+  padding: 6rem 2rem;
   text-align: center;
   color: white;
   position: relative;
-  overflow: visible; /* Asegura que no recorte el botón */
-  margin-top: 2rem;
+  overflow: visible;
+  margin-top: 4rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .discover-container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   position: relative;
-  z-index: 10; /* Asegura que esté por encima de los decorativos */
+  z-index: 10;
 }
 
 .discover-title {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+  font-weight: 700;
 }
 
 .discover-text {
-  font-size: 1.2rem;
-  margin-bottom: 2.5rem;
-  line-height: 1.6;
-  opacity: 0.9;
+  font-size: 1.3rem;
+  margin-bottom: 3rem;
+  line-height: 1.7;
+  opacity: 0.95;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 .discover-button {
   background: white;
   color: #003cff;
   border: none;
-  padding: 18px 30px; /* Más grueso pero menos ancho */
+  padding: 16px 36px;
   font-size: 1.2rem;
-  border-radius: 50px;
+  border-radius: 40px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-weight: bold;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   pointer-events: auto;
   position: relative;
-  width: auto; /* Asegura que no sea demasiado ancho */
-  min-width: 120px; /* Ancho mínimo para mantener proporción */
-  justify-content: center;
+  min-width: 160px;
 }
 
-/* Eliminamos el cambio de color y transform Y */
 .discover-button:hover {
   animation: shake 0.5s ease infinite;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
 }
 
-/* Animación de temblar */
 @keyframes shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  20% {
-    transform: translateX(-2px);
-  }
-  40% {
-    transform: translateX(2px);
-  }
-  60% {
-    transform: translateX(-2px);
-  }
-  80% {
-    transform: translateX(2px);
-  }
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-2px); }
+  40% { transform: translateX(2px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
 }
 
 .button-icon {
-  margin-left: 10px;
+  margin-left: 12px;
   transition: transform 0.3s ease;
 }
 
-/* Mantenemos el movimiento del ícono pero más sutil */
 .discover-button:hover .button-icon {
-  transform: translateX(3px);
+  transform: translateX(4px);
 }
 
-/* Elementos decorativos */
 .decorations {
   position: absolute;
   width: 100%;
@@ -442,7 +433,7 @@
   top: 0;
   left: 0;
   z-index: 1;
-  pointer-events: none; /* Evita que bloqueen clics */
+  pointer-events: none;
 }
 
 .circle-decoration {
