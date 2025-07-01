@@ -169,7 +169,12 @@
 }
 
 .text-container {
-  width: 60%;
+  max-width: 600px;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: white;
+  font-weight: 400;
+  padding: 20px;
 }
 
 .text {
