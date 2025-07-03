@@ -1,31 +1,28 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Agregar esta línea ✅
-import "./Register.css";
+import { useNavigate, Link } from "react-router-dom";
 import { Formik } from "formik";
-import InputLabel from "../../components/Input/InputLabel";
-import Button from "../../components/Button/Button";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { registerUser } from "../../store/authSlice";
-import { Link } from "react-router-dom"; // Asegurar también esta importación ✅
+import { registerUser } from "../../authSlice"; // Ajusta según tu ruta
+import "./Register.css";
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const initialValues = {
-    name: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
-  };
+const initialValues = {
+  name: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
+};
 
   const validationSchema = Yup.object({
-    name: Yup.string()
+    nombre: Yup.string()
       .required("El nombre es requerido")
       .min(3, "El nombre debe tener al menos 3 caracteres"),
 
-    email: Yup.string()
+    correo: Yup.string()
       .required("El correo es requerido")
       .email("El correo no es válido"),
 
@@ -39,23 +36,27 @@ const Register = () => {
       .required("La confirmación de la contraseña es requerida"),
   });
 
-  // Llamada al action para registro
   const onSubmit = (values, { setFieldError }) => {
-    // setFieldError se obtiene de Formik
-    dispatch(registerUser(values)).then((response) => {
-      if (response.type === "auth/registerUser/fulfilled") {
-        navigate("/Welcome");
-      } else {
-        Object.entries(response.payload.errors).forEach(([key, value]) => {
-          setFieldError(key, value[0]);
-        });
-      }
-    });
+    console.log("✅ Enviando formulario", values);
+
+    dispatch(registerUser(values))
+      .then((response) => {
+        console.log("🟢 Respuesta del registerUser:", response);
+        if (response.type === "auth/registerUser/fulfilled") {
+          navigate("/Welcome");
+        } else if (response.payload && response.payload.errors) {
+          Object.entries(response.payload.errors).forEach(([key, value]) => {
+            setFieldError(key, value[0]);
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("❌ Error al registrar:", error);
+      });
   };
 
   return (
     <div className="login-container">
-      {/* Sección de formulario */}
       <div className="login-form">
         <h2>Regístrate Ahora</h2>
         <p>Crea una cuenta para continuar.</p>
@@ -63,45 +64,59 @@ const Register = () => {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={onSubmit} // onSubmit recibe valores y helpers (como setFieldError)
+          onSubmit={onSubmit}
         >
           {({ values, errors, handleChange, handleSubmit }) => (
-            <form onSubmit={handleSubmit}>
-              <InputLabel
-                label="Correo"
-                name="email"
-                placeholder="example@gmail.com"
-                error={errors.email}
-                onChange={handleChange}
-                value={values.email}
-              />
-              <InputLabel
-                label="Nombre"
-                name="name"
-                placeholder="Aiton Balam"
-                error={errors.name}
-                onChange={handleChange}
-                value={values.name}
-              />
-              <InputLabel
-                label="Contraseña"
-                name="password"
-                placeholder="********"
-                type="password"
-                error={errors.password}
-                onChange={handleChange}
-                value={values.password}
-              />
-              <InputLabel
-                label="Confirmar Contraseña"
-                name="password_confirmation"
-                placeholder="********"
-                type="password"
-                error={errors.password_confirmation}
-                onChange={handleChange}
-                value={values.password_confirmation}
-              />
-              <Button value="Registrarse" type="submit" />
+            <form onSubmit={handleSubmit} noValidate>
+              <div className="form-group">
+                <label>Correo</label>
+                <input
+                  type="email"
+                  name="correo"
+                  value={values.correo}
+                  onChange={handleChange}
+                  placeholder="example@gmail.com"
+                />
+                {errors.correo && <span className="error">{errors.correo}</span>}
+              </div>
+
+              <div className="form-group">
+                <label>Nombre</label>
+               <input
+  type="text"
+  name="name"
+  value={values.name}
+  onChange={handleChange}
+/>
+                {errors.nombre && <span className="error">{errors.nombre}</span>}
+              </div>
+
+              <div className="form-group">
+                <label>Contraseña</label>
+              <input
+  type="email"
+  name="email"
+  value={values.email}
+  onChange={handleChange}
+/>
+                {errors.password && <span className="error">{errors.password}</span>}
+              </div>
+
+              <div className="form-group">
+                <label>Confirmar Contraseña</label>
+                <input
+                  type="password"
+                  name="password_confirmation"
+                  value={values.password_confirmation}
+                  onChange={handleChange}
+                  placeholder="********"
+                />
+                {errors.password_confirmation && (
+                  <span className="error">{errors.password_confirmation}</span>
+                )}
+              </div>
+
+              <button type="submit">Registrarse</button>
             </form>
           )}
         </Formik>
@@ -109,13 +124,11 @@ const Register = () => {
         <p className="signup-text">
           ¿Ya tienes una cuenta?{" "}
           <Link to="/login" className="signup-link">
-            {" "}
             Inicia sesión
           </Link>
         </p>
       </div>
 
-      {/* Sección de imagen */}
       <div className="login-image">
         <img src="/public/MI.png" alt="MI" className="login-img" />
       </div>
