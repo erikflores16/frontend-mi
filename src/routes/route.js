@@ -11,7 +11,7 @@ import Roles from "../pages/Layout/Roles";
 import TeacherDashboard from "../pages/Layout/TeacherDashboard";
 import TeacherDashboardPayment from "../pages/Layout/TeacherDashboardPayment";
 import CareerCatalog from "../pages/Layout/CareerCatalog"; // Asegúrate de importar el componente correctamente
-import CursosPage from "../pages/Cursos/CursosPage";
+
 export const routes = [
   {
     path: "/",
