@@ -172,6 +172,7 @@ const CombinedPage = () => {
                 to="inicio"
                 smooth={true}
                 duration={500}
+                offset={-100}
                 className="navbar-link"
               >
                 Inicio
@@ -182,6 +183,7 @@ const CombinedPage = () => {
                 to="nosotros"
                 smooth={true}
                 duration={500}
+                offset={-100}
                 className="navbar-link"
               >
                 Nosotros
@@ -192,6 +194,7 @@ const CombinedPage = () => {
                 to="universidades"
                 smooth={true}
                 duration={500}
+                offset={-100}
                 className="navbar-link"
               >
                 Universidades
@@ -202,6 +205,7 @@ const CombinedPage = () => {
                 to="universidad-ideal"
                 smooth={true}
                 duration={500}
+                offset={-100}
                 className="navbar-link"
               >
                 Descubre tu Universidad Ideal
@@ -259,7 +263,7 @@ const CombinedPage = () => {
 
       {/* Sección de Nosotros */}
       <section id="nosotros" className="nosotros-container">
-        <h1 className="nosotros-title">Nosotros</h1>
+        <h1 className="section-title">Nosotros</h1>
         <div className="underline"></div>
         <div className="nosotros-box">
           <div className="image-container">
@@ -278,7 +282,7 @@ const CombinedPage = () => {
 
       {/* Sección de Universidades */}
       <section id="universidades" className="universidades-content">
-        <h1 className="universidades-title">Universidades</h1>
+        <h1 className="section-title">Universidades</h1>
         <div className="underline"></div>
         <div className="carousel-container">
           <Slider {...settings}>
@@ -302,7 +306,7 @@ const CombinedPage = () => {
       {/* Sección Descubre tu Universidad Ideal */}
       <section id="universidad-ideal" className="discover-section">
         <div className="discover-container">
-          <h1 className="discover-title">Descubre tu Universidad Ideal</h1>
+          <h1 className="section-title">Descubre tu Universidad Ideal</h1>
           <div className="underline"></div>
           <p className="discover-text">
             ¿No sabes qué universidad se adapta mejor a tus intereses?
@@ -312,7 +316,9 @@ const CombinedPage = () => {
           <button
             className="discover-button"
             onClick={() => navigate("/formulario")}
-          >            Comenzar Test
+          >
+            {" "}
+            Comenzar Test
           </button>
 
           <div className="decorations">

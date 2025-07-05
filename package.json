@@ -24,7 +24,11 @@
     "chart.js": "^4.4.8",
     "formik": "^2.4.6",
     "framer-motion": "^12.16.0",
+<<<<<<< HEAD
     "lucide-react": "^0.523.0",
+=======
+    "lucide-react": "^0.525.0",
+>>>>>>> fe958059589a44550586aecd9c5127104404c9c7
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
     "react-data-table-component": "^7.7.0",
