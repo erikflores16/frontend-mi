@@ -73,9 +73,6 @@ export const routes = [
     element: CareerCatalog,  // Asegúrate de asignar el componente correctamente
     isProtected: false,  // Esto lo puedes cambiar si quieres restringir el acceso
   },
-    {
-    path: "/cursos",
-    element: CursosPage,
-    isProtected: false, // o true si quieres que esté protegida con login
-  },
+    
+
 ];
