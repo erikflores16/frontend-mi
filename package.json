@@ -8,8 +8,12 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+<<<<<<< Updated upstream
       "start": "vite preview --port $PORT --host"
 
+=======
+    "start": "vite preview --port $PORT"
+>>>>>>> Stashed changes
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
