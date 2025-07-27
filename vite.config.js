@@ -2,18 +2,14 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// https://vite.dev/config/
+const allowedHostsFromEnv = process.env.VITE_ALLOWED_HOSTS?.split(',') || []
+
 export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
   ],
   preview: {
-    allowedHosts: [
-      'frontend-mi-12.onrender.com',
-      'frontend-mi-bo3p.onrender.com',
-      'frontend-mi-1.onrender.com',
-      'frontend-mi-2.onrender.com' // nuevo host
-    ]
+    allowedHosts: allowedHostsFromEnv
   }
 })
