@@ -11,10 +11,10 @@ import Roles from "../pages/Layout/Roles";
 import TeacherDashboard from "../pages/Layout/TeacherDashboard";
 import TeacherDashboardPayment from "../pages/Layout/TeacherDashboardPayment";
 import CareerCatalog from "../pages/Layout/CareerCatalog"; // Asegúrate de importar el componente correctamente
-
+import CursosPage from "../pages/Cursos/CursosPage";
 export const routes = [
   {
-    path: "/welcome",
+    path: "/",
     element: Welcome,
     isProtected: false,
   },
@@ -72,5 +72,10 @@ export const routes = [
     path: "/career-catalog",  // Nueva ruta para el catálogo de carreras
     element: CareerCatalog,  // Asegúrate de asignar el componente correctamente
     isProtected: false,  // Esto lo puedes cambiar si quieres restringir el acceso
+  },
+    {
+    path: "/cursos",
+    element: CursosPage,
+    isProtected: false, // o true si quieres que esté protegida con login
   },
 ];

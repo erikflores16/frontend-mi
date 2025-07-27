@@ -581,177 +581,100 @@ const FormularioUniversidad = () => {
               </div>
             )}
 
-            {/* Modal de notificaciones */}
-            {showNotificationModal && (
-              <div className="notification-modal-overlay">
-                <div className="notification-modal">
-                  <p>
-                    ¡Notificaciones{" "}
-                    {notifications[selectedCareer]
-                      ? "activadas"
-                      : "desactivadas"}{" "}
-                    para {selectedCareer}!
-                  </p>
-                  <button onClick={() => setShowNotificationModal(false)}>
-                    Aceptar
-                  </button>
-                </div>
+          
+           <div className="careers-list">
+  {recommendedCareers.length > 0 ? (
+    <>
+      <p className="results-description">
+        Basado en tus respuestas, estas son las carreras que mejor se adaptan a tu perfil:
+      </p>
+      <ul>
+        {recommendedCareers.map((career, index) => {
+          const getCareerDescription = (careerName) => {
+            const descriptions = {
+              "Licenciatura en Matemáticas": "Formación en matemáticas puras y aplicadas",
+              "Ingeniería Industrial": "Enfoque en optimización de procesos productivos",
+              "Ingeniería en Software": "Desarrollo de sistemas y aplicaciones tecnológicas",
+              "Física Biomédica": "Aplicación de la física en medicina y biología",
+              "Licenciatura en Literatura": "Estudio de obras literarias y creación escrita",
+              "Historia del Arte": "Análisis de manifestaciones artísticas históricas",
+              Medicina: "Carrera dedicada al diagnóstico y tratamiento de enfermedades",
+              Enfermería: "Cuidado profesional de pacientes",
+              "Artes Visuales": "Expresión artística a través de medios visuales",
+              "Diseño Gráfico": "Comunicación visual y diseño de mensajes",
+              "Administración de Empresas": "Gestión y dirección de organizaciones",
+              Contaduría: "Gestión financiera y contable de empresas",
+            };
+            return descriptions[careerName] || "Carrera profesional con amplio campo laboral";
+          };
+
+          const getInstitutionDescription = (inst) => {
+            const descriptions = {
+              UADY: "Universidad Autónoma de Yucatán - Institución pública líder en la región",
+              "Tec de Mérida": "Instituto Tecnológico de Mérida - Enfoque en ingenierías y tecnología",
+              "Anáhuac Mayab": "Universidad Anáhuac Mayab - Excelencia académica con visión internacional",
+              ESAY: "Escuela Superior de Artes de Yucatán - Formación artística profesional",
+              Modelo: "Universidad Modelo - Enfoque práctico y vinculación empresarial",
+            };
+            return descriptions[inst] || `Institución educativa en Yucatán`;
+          };
+
+          const careerMatch = career.match(/^(.*?)\s*\((.*?)\)$/);
+          const careerName = careerMatch ? careerMatch[1].trim() : career;
+          const institutionName = careerMatch ? careerMatch[2].trim() : "";
+
+          return (
+            <li key={index} className="career-item" style={{ marginBottom: "20px" }}>
+              <div className="career-header" style={{ fontWeight: "bold", fontSize: "1.2em", marginBottom: "6px" }}>
+                {careerName}
               </div>
-            )}
 
-            <div className="careers-list">
-              {recommendedCareers.length > 0 ? (
-                <>
-                  <p className="results-description">
-                    Basado en tus respuestas, estas son las carreras que mejor
-                    se adaptan a tu perfil:
-                  </p>
-                  <ul>
-                    {recommendedCareers.map((career, index) => {
-                      const getCareerDescription = (careerName) => {
-                        const descriptions = {
-                          "Licenciatura en Matemáticas":
-                            "Formación en matemáticas puras y aplicadas",
-                          "Ingeniería Industrial":
-                            "Enfoque en optimización de procesos productivos",
-                          "Ingeniería en Software":
-                            "Desarrollo de sistemas y aplicaciones tecnológicas",
-                          "Física Biomédica":
-                            "Aplicación de la física en medicina y biología",
-                          "Licenciatura en Literatura":
-                            "Estudio de obras literarias y creación escrita",
-                          "Historia del Arte":
-                            "Análisis de manifestaciones artísticas históricas",
-                          Medicina:
-                            "Carrera dedicada al diagnóstico y tratamiento de enfermedades",
-                          Enfermería: "Cuidado profesional de pacientes",
-                          "Artes Visuales":
-                            "Expresión artística a través de medios visuales",
-                          "Diseño Gráfico":
-                            "Comunicación visual y diseño de mensajes",
-                          "Administración de Empresas":
-                            "Gestión y dirección de organizaciones",
-                          Contaduría:
-                            "Gestión financiera y contable de empresas",
-                        };
-                        return (
-                          descriptions[careerName] ||
-                          "Carrera profesional con amplio campo laboral"
-                        );
-                      };
+              <p className="career-description" style={{ marginBottom: "4px" }}>
+                {getCareerDescription(careerName)}
+              </p>
 
-                      const getInstitutionDescription = (inst) => {
-                        const descriptions = {
-                          UADY: "Universidad Autónoma de Yucatán - Institución pública líder en la región",
-                          "Tec de Mérida":
-                            "Instituto Tecnológico de Mérida - Enfoque en ingenierías y tecnología",
-                          "Anáhuac Mayab":
-                            "Universidad Anáhuac Mayab - Excelencia académica con visión internacional",
-                          ESAY: "Escuela Superior de Artes de Yucatán - Formación artística profesional",
-                          Modelo:
-                            "Universidad Modelo - Enfoque práctico y vinculación empresarial",
-                        };
-                        return (
-                          descriptions[inst] ||
-                          `Institución educativa en Yucatán`
-                        );
-                      };
-
-                      const careerMatch = career.match(/^(.*?)\s*\((.*?)\)$/);
-                      const careerName = careerMatch
-                        ? careerMatch[1].trim()
-                        : career;
-                      const institutionName = careerMatch
-                        ? careerMatch[2].trim()
-                        : "";
-
-                      return (
-                        <li key={index} className="career-item">
-                          <div className="career-header">
-                            <span className="career-name">{careerName}</span>
-                            <span className="institution-name">
-                              {" "}
-                              - {institutionName}
-                            </span>
-                          </div>
-                          <p className="career-description">
-                            {getCareerDescription(careerName)} •{" "}
-                            {getInstitutionDescription(institutionName)}
-                          </p>
-                          <div className="career-actions">
-                            <button
-                              className="discover-button career-search-button"
-                              onClick={() => {
-                                const query = `${careerName} ${
-                                  institutionName ? "en " + institutionName : ""
-                                } Yucatán`;
-                                window.open(
-                                  `https://www.google.com/search?q=${encodeURIComponent(
-                                    query
-                                  )}`,
-                                  "_blank"
-                                );
-                              }}
-                            >
-                              <i className="fas fa-search"></i> Explorar esta
-                              carrera
-                            </button>
-
-                            <button
-                              className="comment-button"
-                              onClick={() => {
-                                setSelectedCareer(careerName);
-                                setShowCommentModal(true);
-                              }}
-                            >
-                              <i className="fas fa-comment"></i> Comentar
-                            </button>
-
-                            <button
-                              className={`notify-button ${
-                                notifications[careerName] ? "active" : ""
-                              }`}
-                              onClick={() => handleNotification(careerName)}
-                            >
-                              <i className="fas fa-bell"></i> Notificaciones
-                            </button>
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </>
-              ) : (
-                <p className="no-results">
-                  No pudimos determinar carreras específicas. Te recomendamos
-                  explorar las opciones de la{" "}
-                  <a
-                    href="https://www.uady.mx"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    UADY
-                  </a>
-                  , el{" "}
-                  <a
-                    href="https://www.merida.tecnm.mx"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Tec de Mérida
-                  </a>{" "}
-                  o la{" "}
-                  <a
-                    href="https://www.anahuac.mx/merida"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Anáhuac Mayab
-                  </a>
-                  .
+              {institutionName && (
+                <p className="institution-description" style={{ fontStyle: "italic", color: "#666", marginTop: 0 }}>
+                  {getInstitutionDescription(institutionName)}
                 </p>
               )}
-            </div>
+
+              <div className="career-actions" style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "10px" }}>
+                <button
+                  className="discover-button career-search-button"
+                  onClick={() => {
+                    const query = `${careerName} ${institutionName ? "en " + institutionName : ""} Yucatán`;
+                    window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, "_blank");
+                  }}
+                >
+                  <i className="fas fa-search"></i> Explorar esta carrera
+                </button>
+
+                {institutionName === "Tec de Mérida" && (
+                  <a
+                    className="whatsapp-button"
+                    href={`https://wa.me/5219991234567?text=Hola,%20me%20interesa%20la%20carrera%20de%20${encodeURIComponent(careerName)}%20en%20el%20Tec%20de%20Mérida`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i className="fab fa-whatsapp"></i> Contactar por WhatsApp
+                  </a>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  ) : (
+    <p className="no-results">
+      No pudimos determinar carreras específicas. Te recomendamos explorar las opciones de la{" "}
+      <a href="https://www.uady.mx" target="_blank" rel="noopener noreferrer">UADY</a>, el{" "}
+      <a href="https://www.merida.tecnm.mx" target="_blank" rel="noopener noreferrer">Tec de Mérida</a> o la{" "}
+      <a href="https://www.anahuac.mx/merida" target="_blank" rel="noopener noreferrer">Anáhuac Mayab</a>.
+    </p>
+  )}
+</div>
 
             <div className="modal-buttons">
               <button className="modal-button secondary" onClick={restartTest}>
@@ -759,7 +682,7 @@ const FormularioUniversidad = () => {
               </button>
               <button
                 className="modal-button tertiary"
-                onClick={() => navigate("/welcome")} // pequeño detalle de volver al "/welcome" o inicio
+                onClick={() => navigate("/")} // pequeño detalle de volver al "/welcome" o inicio
               >
                 <i className="fas fa-home"></i> Volver al inicio
               </button>

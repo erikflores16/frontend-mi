@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-scroll";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
@@ -6,12 +6,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./CombinedStyles.css";
 
-// Lista de universidades
 const universities = [
   {
     name: "Universidad Autónoma de Yucatán (UADY)",
-    description:
-      "Principal universidad pública de Yucatán, con una amplia oferta académica.",
+    description: "Principal universidad pública de Yucatán, con una amplia oferta académica.",
     image: "/uady.jpeg",
     link: "https://uady.mx/ofertaeducativa",
   },
@@ -23,8 +21,7 @@ const universities = [
   },
   {
     name: "Universidad Anáhuac Mayab",
-    description:
-      "Universidad privada con programas de excelencia internacional.",
+    description: "Universidad privada con programas de excelencia internacional.",
     image: "/ana.jpeg",
     link: "https://merida.anahuac.mx/nosotros/modelo-educativo",
   },
@@ -90,8 +87,7 @@ const universities = [
   },
   {
     name: "Universidad Autónoma de Campeche",
-    description:
-      "Ofrece programas académicos de calidad con presencia en Yucatán.",
+    description: "Ofrece programas académicos de calidad con presencia en Yucatán.",
     image: "/campeche.jpg",
     link: "https://uacam.mx/paginas/ver/358",
   },
@@ -104,63 +100,34 @@ const universities = [
 ];
 
 const CombinedPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState("");
-  const navigate = useNavigate(); // Redirigir a otras rutas
+  const navigate = useNavigate();
 
-  // Función para abrir el modal con una frase aleatoria
-  const openModal = () => {
-    const phrases = [
-      "Elegir una carrera es como plantar un árbol: si lo haces con cuidado, dará frutos para toda la vida.",
-      "Tu carrera no solo define tu profesión, sino también tu pasión y propósito en la vida.",
-      "La educación es el pasaporte hacia el futuro, y la carrera que elijas es el camino que recorrerás.",
-      "Cada carrera es una oportunidad para dejar tu huella en el mundo. ¡Elige la que te inspire!",
-      "La mejor carrera es aquella que te hace feliz y te permite crecer como persona.",
-    ];
-    const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-    setModalContent(randomPhrase);
-    setIsModalOpen(true);
-  };
-
-  // Función para cerrar el modal
-  const closeModal = () => setIsModalOpen(false);
-
-  // Configuración del carrusel
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
-    autoplay: true, // Activa el desplazamiento automático
-    autoplaySpeed: 3000, // Velocidad del desplazamiento automático (3 segundos)
+    autoplay: true,
+    autoplaySpeed: 3000,
     responsive: [
       {
         breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
+        settings: { slidesToShow: 2, slidesToScroll: 1 },
       },
       {
         breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
+        settings: { slidesToShow: 1, slidesToScroll: 1 },
       },
     ],
   };
 
-  // Función de logout
   const handleLogout = () => {
-    // Aquí puedes agregar la lógica para limpiar el almacenamiento local o sesión si es necesario
-    navigate("/login"); // Redirige al login
+    navigate("/login");
   };
 
   return (
     <div className="combined-container">
-      {/* Navbar */}
       <nav className="navbar">
         <div className="navbar-container">
           <div className="navbar-logo">
@@ -168,46 +135,22 @@ const CombinedPage = () => {
           </div>
           <ul className="navbar-list">
             <li className="navbar-item">
-              <Link
-                to="inicio"
-                smooth={true}
-                duration={500}
-                offset={-100}
-                className="navbar-link"
-              >
+              <Link to="inicio" smooth={true} duration={500} className="navbar-link">
                 Inicio
               </Link>
             </li>
             <li className="navbar-item">
-              <Link
-                to="nosotros"
-                smooth={true}
-                duration={500}
-                offset={-100}
-                className="navbar-link"
-              >
+              <Link to="nosotros" smooth={true} duration={500} className="navbar-link">
                 Nosotros
               </Link>
             </li>
             <li className="navbar-item">
-              <Link
-                to="universidades"
-                smooth={true}
-                duration={500}
-                offset={-100}
-                className="navbar-link"
-              >
+              <Link to="universidades" smooth={true} duration={500} className="navbar-link">
                 Universidades
               </Link>
             </li>
             <li className="navbar-item">
-              <Link
-                to="universidad-ideal"
-                smooth={true}
-                duration={500}
-                offset={-100}
-                className="navbar-link"
-              >
+              <Link to="universidad-ideal" smooth={true} duration={500} className="navbar-link">
                 Descubre tu Universidad Ideal
               </Link>
             </li>
@@ -219,51 +162,43 @@ const CombinedPage = () => {
           </ul>
         </div>
       </nav>
+<section id="inicio" className="welcome-content">
+  <h1 className="welcome-title">Inicio</h1>
+  <div className="underline"></div>
 
-      {/* Resto de la página */}
-      <section id="inicio" className="welcome-content">
-        <h1 className="welcome-title">Inicio</h1>
-        <div className="underline"></div>
-        {/* Contenedor de la galería */}
-        <div className="gallery">
-          <div className="gallery-top">
-            <img
-              src="/e4.jpeg"
-              alt="MI"
-              className="gallery-item"
-              onClick={openModal}
-            />
-            <img
-              src="/e6.jpeg"
-              alt="MI"
-              className="gallery-item"
-              onClick={openModal}
-            />
-          </div>
-          <div className="gallery-bottom">
-            <img
-              src="/e5.jpeg"
-              alt="MI"
-              className="gallery-item full-width-image"
-              onClick={openModal}
-            />
+  {/* Galería original con contenedores hover */}
+  <div className="gallery">
+    <div className="gallery-top">
+      {["/e4.jpeg", "/e6.jpeg"].map((src, idx) => (
+        <div
+          key={idx}
+          className="gallery-item-container"
+          onClick={() => navigate("/cursos")}
+        >
+          <img src={src} alt={`Imagen ${idx}`} className="gallery-item" />
+          <div className="hover-overlay">
+            ¿Te gustaría tomar un curso sobre algún interés?
           </div>
         </div>
-      </section>
+      ))}
+    </div>
 
-      {/* Modal */}
-      {isModalOpen && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <p>{modalContent}</p>
-            <button onClick={closeModal}>Cerrar</button>
-          </div>
+    <div className="gallery-bottom">
+      <div
+        className="gallery-item-container"
+        onClick={() => navigate("/cursos")}
+      >
+        <img src="/e5.jpeg" alt="Imagen inferior" className="gallery-item full-width-image" />
+        <div className="hover-overlay">
+          ¿Te gustaría tomar un curso sobre algún interés?
         </div>
-      )}
+      </div>
+    </div>
+  </div>
+</section>
 
-      {/* Sección de Nosotros */}
       <section id="nosotros" className="nosotros-container">
-        <h1 className="section-title">Nosotros</h1>
+        <h1 className="nosotros-title">Nosotros</h1>
         <div className="underline"></div>
         <div className="nosotros-box">
           <div className="image-container">
@@ -271,29 +206,22 @@ const CombinedPage = () => {
           </div>
           <div className="text-container">
             <p className="text">
-              "MI", es una plataforma educativa personalizada que ayuda a los
-              estudiantes a descubrir, explorar y elegir la carrera ideal para
-              su futuro, teniendo en cuenta sus intereses, habilidades y
-              presupuesto.
+              "MI", es una plataforma educativa personalizada que ayuda a los estudiantes a descubrir,
+              explorar y elegir la carrera ideal para su futuro, teniendo en cuenta sus intereses, habilidades y presupuesto.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Sección de Universidades */}
       <section id="universidades" className="universidades-content">
-        <h1 className="section-title">Universidades</h1>
+        <h1 className="universidades-title">Universidades</h1>
         <div className="underline"></div>
         <div className="carousel-container">
           <Slider {...settings}>
             {universities.map((uni, index) => (
               <div className="carousel-item" key={index}>
                 <a href={uni.link} target="_blank" rel="noopener noreferrer">
-                  <img
-                    src={uni.image}
-                    alt={uni.name}
-                    className="carousel-image"
-                  />
+                  <img src={uni.image} alt={uni.name} className="carousel-image" />
                 </a>
                 <h3>{uni.name}</h3>
                 <p>{uni.description}</p>
@@ -303,21 +231,16 @@ const CombinedPage = () => {
         </div>
       </section>
 
-      {/* Sección Descubre tu Universidad Ideal */}
       <section id="universidad-ideal" className="discover-section">
         <div className="discover-container">
-          <h1 className="section-title">Descubre tu Universidad Ideal</h1>
+          <h1 className="discover-title">Descubre tu Universidad Ideal</h1>
           <div className="underline"></div>
           <p className="discover-text">
             ¿No sabes qué universidad se adapta mejor a tus intereses?
             <br />
             ¡Responde nuestro test y te lo diremos en minutos!
           </p>
-          <button
-            className="discover-button"
-            onClick={() => navigate("/formulario")}
-          >
-            {" "}
+          <button className="discover-button" onClick={() => navigate("/formulario")}>
             Comenzar Test
           </button>
 
@@ -327,7 +250,6 @@ const CombinedPage = () => {
           </div>
         </div>
 
-        {/* Botón de WhatsApp flotante */}
         <a
           href="https://wa.me/5215555555555?text=Hola,%20quiero%20más%20información%20sobre%20las%20universidades."
           target="_blank"
