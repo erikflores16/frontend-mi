@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./FormularioUniversidad.css";
+import OpenRouterChat from "../../components/Chatbox/OpenRouterChat";
+
+
+
 
 const FormularioUniversidad = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -13,6 +17,8 @@ const FormularioUniversidad = () => {
   const [commentText, setCommentText] = useState("");
   const [selectedCareer, setSelectedCareer] = useState("");
   const [notifications, setNotifications] = useState({});
+  const [isChatOpen, setIsChatOpen] = useState(false);
+const [chatCareer, setChatCareer] = useState("");
 
   // Todas las posibles preguntas organizadas por área de interés
   const allQuestions = {
@@ -649,17 +655,26 @@ const FormularioUniversidad = () => {
                 >
                   <i className="fas fa-search"></i> Explorar esta carrera
                 </button>
+{institutionName === "Tec de Mérida" && (
+  <div className="career-contact-buttons" style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+    <a
+      href={`https://wa.me/5219991234567?text=Hola,%20quiero%20más%20información%20sobre%20la%20carrera%20${encodeURIComponent(careerName)}%20en%20el%20Tec%20de%20Mérida.`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded flex items-center gap-2 shadow"
+    >
+      <i className="fab fa-whatsapp"></i> Contactar por WhatsApp
+    </a>
 
-                {institutionName === "Tec de Mérida" && (
-                  <a
-                    className="whatsapp-button"
-                    href={`https://wa.me/5219991234567?text=Hola,%20me%20interesa%20la%20carrera%20de%20${encodeURIComponent(careerName)}%20en%20el%20Tec%20de%20Mérida`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <i className="fab fa-whatsapp"></i> Contactar por WhatsApp
-                  </a>
-                )}
+    <a
+      href={`mailto:info@tecmerida.mx?subject=Consulta%20sobre%20${encodeURIComponent(careerName)}&body=Hola,%20quiero%20más%20información%20sobre%20la%20carrera%20${encodeURIComponent(careerName)}%20en%20el%20Tec%20de%20Mérida.`}
+      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center gap-2 shadow"
+    >
+      <i className="fas fa-envelope"></i> Enviar correo
+    </a>
+  </div>
+)}
+
               </div>
             </li>
           );
@@ -675,6 +690,7 @@ const FormularioUniversidad = () => {
     </p>
   )}
 </div>
+<OpenRouterChat />
 
             <div className="modal-buttons">
               <button className="modal-button secondary" onClick={restartTest}>
