@@ -12,7 +12,8 @@ export default function OpenRouterChat() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const API_KEY = "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";
+  // Leer la API key desde variable de entorno Vite
+  const API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
 
   const messagesEndRef = useRef(null);
 
