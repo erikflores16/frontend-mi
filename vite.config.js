@@ -9,6 +9,11 @@ export default defineConfig({
     tailwindcss(),
   ],
   preview: {
-    host: true // ← Permite cualquier host en modo preview
+    allowedHosts: [
+      'frontend-mi-12.onrender.com',
+      'frontend-mi-bo3p.onrender.com',
+      'frontend-mi-1.onrender.com',
+      'frontend-mi-2.onrender.com' // nuevo host
+    ]
   }
 })
