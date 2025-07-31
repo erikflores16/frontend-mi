@@ -5,13 +5,10 @@ import { Formik } from "formik";
 import InputLabel from "../../components/Input/InputLabel";
 import Button from "../../components/Button/Button";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
-import { registerUser } from "../../store/authSlice";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2"; // ✅ Importar SweetAlert2
 
 const Register = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const initialValues = {
@@ -40,33 +37,24 @@ const Register = () => {
       .required("La confirmación de la contraseña es requerida"),
   });
 
-  const onSubmit = (values, { setFieldError }) => {
-    dispatch(registerUser(values)).then((response) => {
-      if (response.type === "auth/registerUser/fulfilled") {
-        // ✅ Mostrar mensaje de éxito
-        Swal.fire({
-          icon: "success",
-          title: "¡Usuario agregado correctamente!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-
-        // ✅ Redirigir después del mensaje
-        setTimeout(() => {
-          navigate("/Welcome");
-        }, 1600);
-      } else {
-        // ❌ Mostrar errores del backend
-        Object.entries(response.payload.errors).forEach(([key, value]) => {
-          setFieldError(key, value[0]);
-        });
-      }
+  const onSubmit = (values, { resetForm }) => {
+    // ✅ Mostrar mensaje estático
+    Swal.fire({
+      icon: "success",
+      title: "¡Usuario agregado correctamente!",
+      showConfirmButton: false,
+      timer: 1500,
     });
+
+    // ✅ Limpiar formulario (opcional)
+    resetForm();
+
+    // ✅ Redirigir después (si quieres)
+    // navigate("/Welcome");
   };
 
   return (
     <div className="login-container">
-      {/* Sección de formulario */}
       <div className="login-form">
         <h2>Regístrate Ahora</h2>
         <p>Crea una cuenta para continuar.</p>
@@ -125,7 +113,6 @@ const Register = () => {
         </p>
       </div>
 
-      {/* Sección de imagen */}
       <div className="login-image">
         <img src="/public/MI.png" alt="MI" className="login-img" />
       </div>
