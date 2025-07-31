@@ -37,18 +37,44 @@ const Register = () => {
       .required("La confirmación de la contraseña es requerida"),
   });
 
-  const onSubmit = (values, { resetForm }) => {
-    Swal.fire({
-      icon: "success",
-      title: "¡Usuario agregado correctamente!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+  const onSubmit = async (values, { resetForm }) => {
+    try {
+      const response = await fetch("https://backend-mi-1.onrender.com/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(values),
+      });
 
-    resetForm();
+      const data = await response.json();
 
-    // Si quieres navegar, descomenta la siguiente línea:
-    // setTimeout(() => navigate("/Welcome"), 1600);
+      if (response.ok) {
+        Swal.fire({
+          icon: "success",
+          title: data.message || "¡Usuario agregado correctamente!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        resetForm();
+
+        // Descomenta si quieres redirigir después de registrar
+        // setTimeout(() => navigate("/Welcome"), 1600);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error al registrar",
+          text: data.message || "Verifica los datos ingresados",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error en la conexión",
+        text: error.message,
+      });
+    }
   };
 
   return (
