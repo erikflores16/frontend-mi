@@ -37,12 +37,13 @@ const Register = () => {
 
   const onSubmit = async (values, { resetForm }) => {
     try {
-      await axios.post("https://backend-mi-1.onrender.com/api/register", {
-        name: values.name,
-        email: values.email,
-        password: values.password,
-        password_confirmation: values.password_confirmation,
-      });
+await axios.post("https://backend-mi-1.onrender.com/api/auth/register", {
+  name: values.name,
+  email: values.email,
+  password: values.password,
+  password_confirmation: values.password_confirmation,
+});
+
 
       Swal.fire({
         icon: "success",
