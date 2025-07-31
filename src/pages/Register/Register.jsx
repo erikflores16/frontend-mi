@@ -7,6 +7,7 @@ import Button from "../../components/Button/Button";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -37,18 +38,33 @@ const Register = () => {
       .required("La confirmación de la contraseña es requerida"),
   });
 
-  const onSubmit = (values, { resetForm }) => {
-    Swal.fire({
-      icon: "success",
-      title: "¡Usuario agregado correctamente!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+  const onSubmit = async (values, { resetForm }) => {
+    try {
+      // Enviar datos al backend Laravel en /api/register
+      await axios.post("http://localhost:8000/api/register", {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        password_confirmation: values.password_confirmation,
+      });
 
-    resetForm();
+      Swal.fire({
+        icon: "success",
+        title: "¡Usuario agregado correctamente!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
 
-    // Si quieres navegar, descomenta la siguiente línea:
-    // setTimeout(() => navigate("/Welcome"), 1600);
+      resetForm();
+      // setTimeout(() => navigate("/Welcome"), 1600);
+    } catch (error) {
+      console.error("Error al registrar usuario:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error al registrar",
+        text: "Verifica que los datos sean válidos o que el backend esté disponible.",
+      });
+    }
   };
 
   return (
