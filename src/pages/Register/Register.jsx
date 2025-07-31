@@ -39,7 +39,7 @@ const Register = () => {
 
   const onSubmit = async (values, { resetForm }) => {
     try {
-      const response = await fetch("https://backend-mi-1.onrender.com/api/register", {
+      const response = await fetch("https://backend-mi-1.onrender.com/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
