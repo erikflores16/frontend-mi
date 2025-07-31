@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Agregar esta línea ✅
+import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import { Formik } from "formik";
 import InputLabel from "../../components/Input/InputLabel";
@@ -7,7 +7,8 @@ import Button from "../../components/Button/Button";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../store/authSlice";
-import { Link } from "react-router-dom"; // Asegurar también esta importación ✅
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2"; // ✅ Importar SweetAlert2
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -39,13 +40,23 @@ const Register = () => {
       .required("La confirmación de la contraseña es requerida"),
   });
 
-  // Llamada al action para registro
   const onSubmit = (values, { setFieldError }) => {
-    // setFieldError se obtiene de Formik
     dispatch(registerUser(values)).then((response) => {
       if (response.type === "auth/registerUser/fulfilled") {
-        navigate("/Welcome");
+        // ✅ Mostrar mensaje de éxito
+        Swal.fire({
+          icon: "success",
+          title: "¡Usuario agregado correctamente!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        // ✅ Redirigir después del mensaje
+        setTimeout(() => {
+          navigate("/Welcome");
+        }, 1600);
       } else {
+        // ❌ Mostrar errores del backend
         Object.entries(response.payload.errors).forEach(([key, value]) => {
           setFieldError(key, value[0]);
         });
@@ -63,7 +74,7 @@ const Register = () => {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={onSubmit} // onSubmit recibe valores y helpers (como setFieldError)
+          onSubmit={onSubmit}
         >
           {({ values, errors, handleChange, handleSubmit }) => (
             <form onSubmit={handleSubmit}>
@@ -109,7 +120,6 @@ const Register = () => {
         <p className="signup-text">
           ¿Ya tienes una cuenta?{" "}
           <Link to="/login" className="signup-link">
-            {" "}
             Inicia sesión
           </Link>
         </p>
