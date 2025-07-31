@@ -14,12 +14,12 @@ import CareerCatalog from "../pages/Layout/CareerCatalog"; // Asegúrate de impo
 import CursosPage from "../pages/Cursos/CursosPage";
 export const routes = [
   {
-    path: "/",
+    path: "/Welcome",
     element: Welcome,
     isProtected: false,
   },
   {
-    path: "/Login", // Ruta principal
+    path: "/", // Ruta principal
     element: Login, // Asegura que sea el componente correcto
   },
   {
