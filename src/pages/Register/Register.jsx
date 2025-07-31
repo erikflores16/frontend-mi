@@ -23,16 +23,13 @@ const Register = () => {
     name: Yup.string()
       .required("El nombre es requerido")
       .min(3, "El nombre debe tener al menos 3 caracteres"),
-
     email: Yup.string()
       .required("El correo es requerido")
       .email("El correo no es válido"),
-
     password: Yup.string()
       .required("La contraseña es requerida")
       .min(8, "La contraseña debe tener al menos 8 caracteres")
       .max(50, "La contraseña tiene un máximo de 50 caracteres"),
-
     password_confirmation: Yup.string()
       .oneOf([Yup.ref("password"), null], "Las contraseñas deben coincidir")
       .required("La confirmación de la contraseña es requerida"),
@@ -40,8 +37,7 @@ const Register = () => {
 
   const onSubmit = async (values, { resetForm }) => {
     try {
-      // Enviar datos al backend Laravel en /api/register
-      await axios.post("http://localhost:8000/api/register", {
+      await axios.post("https://backend-mi-1.onrender.com/api/register", {
         name: values.name,
         email: values.email,
         password: values.password,
@@ -58,11 +54,11 @@ const Register = () => {
       resetForm();
       // setTimeout(() => navigate("/Welcome"), 1600);
     } catch (error) {
-      console.error("Error al registrar usuario:", error);
+      console.error("Error al registrar usuario:", error.response?.data || error.message);
       Swal.fire({
         icon: "error",
         title: "Error al registrar",
-        text: "Verifica que los datos sean válidos o que el backend esté disponible.",
+        text: error.response?.data.message || "Verifica que los datos sean válidos o que el backend esté disponible.",
       });
     }
   };
