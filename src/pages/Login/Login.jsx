@@ -42,7 +42,7 @@ const Login = () => {
       // localStorage.setItem('token', response.data.token);
 
       // Redirigir según rol o ruta general
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       let mensaje = "Correo o contraseña incorrectos";
 
