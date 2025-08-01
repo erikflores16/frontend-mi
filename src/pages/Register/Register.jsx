@@ -39,15 +39,14 @@ const Register = () => {
 
   const onSubmit = async (values, { resetForm }) => {
     try {
-    const response = await fetch("https://backend-mi-1.onrender.com/api/auth/register", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  },
-  body: JSON.stringify(values),
-});
-
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(values),
+      });
 
       const data = await response.json();
 
@@ -60,7 +59,7 @@ const Register = () => {
         });
         resetForm();
 
-        // Descomenta si quieres redirigir después de registrar
+        // Redirigir si se desea
         // setTimeout(() => navigate("/Welcome"), 1600);
       } else {
         Swal.fire({
