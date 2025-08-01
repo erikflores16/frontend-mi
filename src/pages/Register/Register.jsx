@@ -7,6 +7,7 @@ import Button from "../../components/Button/Button";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -39,40 +40,38 @@ const Register = () => {
 
   const onSubmit = async (values, { resetForm }) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(values),
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/register`,
+        values,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
+
+      Swal.fire({
+        icon: "success",
+        title: data.message || "¡Usuario agregado correctamente!",
+        showConfirmButton: false,
+        timer: 1500,
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        Swal.fire({
-          icon: "success",
-          title: data.message || "¡Usuario agregado correctamente!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        resetForm();
-
-        // Redirigir si se desea
-        // setTimeout(() => navigate("/Welcome"), 1600);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error al registrar",
-          text: data.message || "Verifica los datos ingresados",
-        });
-      }
+      resetForm();
+      // setTimeout(() => navigate("/Welcome"), 1600); // <- si quieres redirigir
     } catch (error) {
+      let mensaje = "Error al registrar usuario";
+
+      // Verificar si vienen errores del backend
+      if (error.response && error.response.data && error.response.data.message) {
+        mensaje = error.response.data.message;
+      }
+
       Swal.fire({
         icon: "error",
-        title: "Error en la conexión",
-        text: error.message,
+        title: "Error",
+        text: mensaje,
       });
     }
   };
