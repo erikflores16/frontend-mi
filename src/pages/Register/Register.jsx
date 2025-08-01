@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import { Formik } from "formik";
@@ -11,6 +11,7 @@ import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const initialValues = {
     name: "",
@@ -39,6 +40,7 @@ const Register = () => {
   });
 
   const onSubmit = async (values, { resetForm }) => {
+    setLoading(true);
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/auth/register`,
@@ -55,17 +57,24 @@ const Register = () => {
         icon: "success",
         title: data.message || "¡Usuario agregado correctamente!",
         showConfirmButton: false,
-        timer: 1500,
+        timer: 1800,
       });
 
       resetForm();
-      // setTimeout(() => navigate("/Welcome"), 1600); // <- si quieres redirigir
+      setTimeout(() => navigate("/login"), 2000); // redirige al login después del registro
+
     } catch (error) {
       let mensaje = "Error al registrar usuario";
 
-      // Verificar si vienen errores del backend
-      if (error.response && error.response.data && error.response.data.message) {
-        mensaje = error.response.data.message;
+      if (error.response && error.response.data) {
+        if (error.response.data.message) {
+          mensaje = error.response.data.message;
+        } else if (error.response.data.errors) {
+          // Si Laravel devuelve errores de validación detallados
+          mensaje = Object.values(error.response.data.errors)
+            .flat()
+            .join("\n");
+        }
       }
 
       Swal.fire({
@@ -73,6 +82,8 @@ const Register = () => {
         title: "Error",
         text: mensaje,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -87,43 +98,43 @@ const Register = () => {
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          {({ values, errors, handleChange, handleSubmit }) => (
-            <form onSubmit={handleSubmit}>
-              <InputLabel
-                label="Correo"
-                name="email"
-                placeholder="example@gmail.com"
-                error={errors.email}
-                onChange={handleChange}
-                value={values.email}
-              />
+          {({ values, errors, touched, handleChange, handleSubmit }) => (
+            <form onSubmit={handleSubmit} noValidate>
               <InputLabel
                 label="Nombre"
                 name="name"
                 placeholder="Aiton Balam"
-                error={errors.name}
+                error={touched.name && errors.name}
                 onChange={handleChange}
                 value={values.name}
               />
               <InputLabel
+                label="Correo"
+                name="email"
+                placeholder="example@gmail.com"
+                error={touched.email && errors.email}
+                onChange={handleChange}
+                value={values.email}
+              />
+              <InputLabel
                 label="Contraseña"
                 name="password"
-                placeholder="********"
                 type="password"
-                error={errors.password}
+                placeholder="********"
+                error={touched.password && errors.password}
                 onChange={handleChange}
                 value={values.password}
               />
               <InputLabel
                 label="Confirmar Contraseña"
                 name="password_confirmation"
-                placeholder="********"
                 type="password"
-                error={errors.password_confirmation}
+                placeholder="********"
+                error={touched.password_confirmation && errors.password_confirmation}
                 onChange={handleChange}
                 value={values.password_confirmation}
               />
-              <Button value="Registrarse" type="submit" />
+              <Button value={loading ? "Registrando..." : "Registrarse"} type="submit" disabled={loading} />
             </form>
           )}
         </Formik>
