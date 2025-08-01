@@ -42,8 +42,13 @@ const Register = () => {
   const onSubmit = async (values, { resetForm }) => {
     setLoading(true);
     try {
+      // En producción URL absoluta, en desarrollo proxy con URL relativa
+      const baseURL = import.meta.env.PROD
+        ? "https://backend-mi-1.onrender.com"
+        : "";
+
       const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/register`,
+        `${baseURL}/api/auth/register`,
         values,
         {
           headers: {
@@ -61,8 +66,7 @@ const Register = () => {
       });
 
       resetForm();
-      setTimeout(() => navigate("/login"), 2000); // redirige al login después del registro
-
+      setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
       let mensaje = "Error al registrar usuario";
 
@@ -70,7 +74,6 @@ const Register = () => {
         if (error.response.data.message) {
           mensaje = error.response.data.message;
         } else if (error.response.data.errors) {
-          // Si Laravel devuelve errores de validación detallados
           mensaje = Object.values(error.response.data.errors)
             .flat()
             .join("\n");
