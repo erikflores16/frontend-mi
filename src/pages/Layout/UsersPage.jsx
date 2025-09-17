@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Home, Users as UsersIcon, FileText, BarChart3 } from "lucide-react";
-import DataTable from 'react-data-table-component'; // Importa DataTable
+import DataTable from 'react-data-table-component';
 
 const UsersPage = () => {
+  const [usuarios, setUsuarios] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const columns = [
     {
       name: 'ID',
@@ -35,18 +38,18 @@ const UsersPage = () => {
     },
   ];
 
-  const data = [
-    { id: 1, nombre: 'Juan Pérez', email: 'juan@example.com' },
-    { id: 2, nombre: 'Ana García', email: 'ana@example.com' },
-    { id: 3, nombre: 'Luis López', email: 'luis@example.com' },
-    { id: 4, nombre: 'Carlos Martín', email: 'carlos@example.com' },
-    { id: 5, nombre: 'Marta Rodríguez', email: 'marta@example.com' },
-    { id: 6, nombre: 'José Sánchez', email: 'jose@example.com' },
-    { id: 7, nombre: 'Paola Fernández', email: 'paola@example.com' },
-    { id: 8, nombre: 'Pedro Ramírez', email: 'pedro@example.com' },
-    { id: 9, nombre: 'Raúl Torres', email: 'raul@example.com' },
-    { id: 10, nombre: 'Laura Castillo', email: 'laura@example.com' },
-  ];
+  useEffect(() => {
+    fetch("/api/usuarios")
+      .then(res => res.json())
+      .then(data => {
+        setUsuarios(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error("Error al obtener usuarios:", error);
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -80,20 +83,19 @@ const UsersPage = () => {
         <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-3xl font-semibold text-gray-800 mb-4">Gestión de Usuarios</h2>
 
-          {/* Botón Añadir Usuario */}
           <div className="mb-4">
             <Link
-              to="/add-user" // Aquí colocas la ruta para el formulario de añadir usuario
+              to="/add-user"
               className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition"
             >
               Añadir Usuario
             </Link>
           </div>
 
-          {/* DataTable */}
           <DataTable
             columns={columns}
-            data={data}
+            data={usuarios}
+            progressPending={loading}
             pagination
             responsive
             highlightOnHover
@@ -107,3 +109,4 @@ const UsersPage = () => {
 };
 
 export default UsersPage;
+

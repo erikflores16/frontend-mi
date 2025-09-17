@@ -14,7 +14,7 @@ import CareerCatalog from "../pages/Layout/CareerCatalog"; // Asegúrate de impo
 import CursosPage from "../pages/Cursos/CursosPage";
 export const routes = [
   {
-    path: "/welcome",
+    path: "/",
     element: Welcome,
     isProtected: false,
   },

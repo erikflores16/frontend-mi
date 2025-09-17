@@ -1,17 +1,17 @@
-import React from "react";
-import { useNavigate } from "react-router-dom"; // Agregar esta línea ✅
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import { Formik } from "formik";
 import InputLabel from "../../components/Input/InputLabel";
 import Button from "../../components/Button/Button";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
-import { registerUser } from "../../store/authSlice";
-import { Link } from "react-router-dom"; // Asegurar también esta importación ✅
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const Register = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const initialValues = {
     name: "",
@@ -39,23 +39,59 @@ const Register = () => {
       .required("La confirmación de la contraseña es requerida"),
   });
 
-  // Llamada al action para registro
-  const onSubmit = (values, { setFieldError }) => {
-    // setFieldError se obtiene de Formik
-    dispatch(registerUser(values)).then((response) => {
-      if (response.type === "auth/registerUser/fulfilled") {
-        navigate("/Welcome");
-      } else {
-        Object.entries(response.payload.errors).forEach(([key, value]) => {
-          setFieldError(key, value[0]);
-        });
+  const onSubmit = async (values, { resetForm }) => {
+    setLoading(true);
+    try {
+      // En producción URL absoluta, en desarrollo proxy con URL relativa
+      const baseURL = import.meta.env.PROD
+        ? "https://backend-mi-1.onrender.com"
+        : "";
+
+      const { data } = await axios.post(
+        `${baseURL}/api/auth/register`,
+        values,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
+
+      Swal.fire({
+        icon: "success",
+        title: data.message || "¡Usuario agregado correctamente!",
+        showConfirmButton: false,
+        timer: 1800,
+      });
+
+      resetForm();
+      setTimeout(() => navigate("/login"), 2000);
+    } catch (error) {
+      let mensaje = "Error al registrar usuario";
+
+      if (error.response && error.response.data) {
+        if (error.response.data.message) {
+          mensaje = error.response.data.message;
+        } else if (error.response.data.errors) {
+          mensaje = Object.values(error.response.data.errors)
+            .flat()
+            .join("\n");
+        }
       }
-    });
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: mensaje,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="login-container">
-      {/* Sección de formulario */}
       <div className="login-form">
         <h2>Regístrate Ahora</h2>
         <p>Crea una cuenta para continuar.</p>
@@ -63,45 +99,45 @@ const Register = () => {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={onSubmit} // onSubmit recibe valores y helpers (como setFieldError)
+          onSubmit={onSubmit}
         >
-          {({ values, errors, handleChange, handleSubmit }) => (
-            <form onSubmit={handleSubmit}>
-              <InputLabel
-                label="Correo"
-                name="email"
-                placeholder="example@gmail.com"
-                error={errors.email}
-                onChange={handleChange}
-                value={values.email}
-              />
+          {({ values, errors, touched, handleChange, handleSubmit }) => (
+            <form onSubmit={handleSubmit} noValidate>
               <InputLabel
                 label="Nombre"
                 name="name"
                 placeholder="Aiton Balam"
-                error={errors.name}
+                error={touched.name && errors.name}
                 onChange={handleChange}
                 value={values.name}
               />
               <InputLabel
+                label="Correo"
+                name="email"
+                placeholder="example@gmail.com"
+                error={touched.email && errors.email}
+                onChange={handleChange}
+                value={values.email}
+              />
+              <InputLabel
                 label="Contraseña"
                 name="password"
-                placeholder="********"
                 type="password"
-                error={errors.password}
+                placeholder="********"
+                error={touched.password && errors.password}
                 onChange={handleChange}
                 value={values.password}
               />
               <InputLabel
                 label="Confirmar Contraseña"
                 name="password_confirmation"
-                placeholder="********"
                 type="password"
-                error={errors.password_confirmation}
+                placeholder="********"
+                error={touched.password_confirmation && errors.password_confirmation}
                 onChange={handleChange}
                 value={values.password_confirmation}
               />
-              <Button value="Registrarse" type="submit" />
+              <Button value={loading ? "Registrando..." : "Registrarse"} type="submit" disabled={loading} />
             </form>
           )}
         </Formik>
@@ -109,13 +145,11 @@ const Register = () => {
         <p className="signup-text">
           ¿Ya tienes una cuenta?{" "}
           <Link to="/login" className="signup-link">
-            {" "}
             Inicia sesión
           </Link>
         </p>
       </div>
 
-      {/* Sección de imagen */}
       <div className="login-image">
         <img src="/public/MI.png" alt="MI" className="login-img" />
       </div>
