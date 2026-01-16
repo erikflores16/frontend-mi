@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./Register.css";
+import { useNavigate, Link } from "react-router-dom";
 import { Formik } from "formik";
-import InputLabel from "../../components/Input/InputLabel";
-import Button from "../../components/Button/Button";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../authSlice"; // Ajusta según tu ruta
+import "./Register.css";
 
 const Register = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   const initialValues = {
@@ -133,11 +133,19 @@ const Register = () => {
                 name="password_confirmation"
                 type="password"
                 placeholder="********"
-                error={touched.password_confirmation && errors.password_confirmation}
+                error={
+                  touched.password_confirmation &&
+                  errors.password_confirmation
+                }
                 onChange={handleChange}
                 value={values.password_confirmation}
               />
-              <Button value={loading ? "Registrando..." : "Registrarse"} type="submit" disabled={loading} />
+
+              <Button
+                value={loading ? "Registrando..." : "Registrarse"}
+                type="submit"
+                disabled={loading}
+              />
             </form>
           )}
         </Formik>
